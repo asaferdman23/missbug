@@ -1,71 +1,48 @@
-import fs from 'fs'
-import { utilService } from './util.service.js'
+import Axios from 'axios'
 
-const bugs = utilService.readJsonFile('public/bugs.json');
+var axios = Axios.create({
+    withCredentials: true,
+})
+
+const BASE_URL = '//localhost:3030/api/bug/'
+
 export const bugService = {
-	query,
-	getById,
-	save,
-	remove,
+    query,
+    getById,
+    save,
+    remove,
 }
 
-async function query() {
-	try {
-		return bugs
-	} catch (error) {
-		console.error(error)
-		throw error
-	}
+async function query(filterBy = {}) {
+    console.log(filterBy)
+    var { data: bugs } = await axios.get(BASE_URL)
+
+    if(filterBy.txt) {
+        const regex = new RegExp(filterBy.txt, 'i')
+        bugs = bugs.filter(bug => regex.test(bug.title) || regex.test(bug.desc))
+    }
+
+    if(filterBy.minSeverity) {
+        bugs = bugs.filter(bug => bug.severity >= filterBy.minSeverity)
+    }
+    return bugs
 }
 
 async function getById(bugId) {
-	try {
-		const bug = bugs.find(bug => bug._id === bugId)
-		return bug
-	} catch (error) {
-		console.error(error)
-		throw error
-	}
+    const { data: bug } = await axios.get(BASE_URL + bugId)
+    return bug
 }
 
 async function remove(bugId) {
-	try {
-		const bugIdx = bugs.findIndex(bug => bug._id === bugId)
-		bugs.splice(bugIdx, 1)
-		_saveBugsToFile()
-	} catch (error) {
-		console.error(error)
-		throw error
-	}
+    return await axios.get(BASE_URL + bugId + '/remove')
 }
 
-async function save(bugToSave) {
-	try {
-		if (bugToSave._id) {
-			console.log('bugToSave._id', bugToSave._id)
-			const idx = bugs.findIndex(bug => bug._id === bugToSave._id)
-			if (idx === -1) throw `Cant find bug with _id ${bugToSave._id}`
-			bugs[idx] = bugToSave
-		} else {
-			bugToSave._id = utilService.makeId()
-			bugToSave.createdAt = Date.now()
-			bugs.push(bugToSave)
-		}
-		console.log('bugToSave2', bugToSave)
-		await _saveBugsToFile()
-		return bugToSave
-	} catch (error) {
-		console.error(error)
-		throw error
-	}
-}
-
-function _saveBugsToFile(path = 'public/bugs.json') {
-	return new Promise((resolve, reject) => {
-		const data = JSON.stringify(bugs, null, 4)
-		fs.writeFile(path, data, err => {
-			if (err) return reject(err)
-			resolve()
-		})
-	})
+async function save(bug) {
+    const { title, severity, desc, createdAt, _id } = bug
+    
+    let params = `?title=${title}&severity=${severity}&desc=${desc}`
+    if(bug._id) params += `&createdAt=${createdAt}&_id=${_id}`
+    
+    const { data: savedBug } = await axios.get(BASE_URL + 'save' + params)
+    return savedBug
 }

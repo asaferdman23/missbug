@@ -9,11 +9,9 @@ export function AppFooter () {
 
     return (
         <footer className='footer container'>
-            <div className='footer-content'>
-                <p className='footer-text'>
-                    Asaf Erdman 2024
-                </p>
-            </div>
+            <p>
+                Asaf Erdman 2024
+            </p>
         </footer>
     )
 
