@@ -4,7 +4,7 @@ var axios = Axios.create({
     withCredentials: true,
 })
 
-const BASE_URL = '//localhost:3030/api/bug/'
+const BASE_URL = `${import.meta.env.VITE_BASE_URL}`
 
 export const bugService = {
     query,
