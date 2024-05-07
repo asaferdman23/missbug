@@ -1,6 +1,6 @@
 # Project Title: Bug Tracker
 
-This project is a simple bug tracking application built with **Node.js**, **Express.js**, and **React.js**. It allows users to add, view, and delete bugs.
+This project is a simple bug-tracking application built with **Node.js**, **Express.js**, and **React.js**. It allows users to add, view, and delete bugs.
 
 ## Technologies Used
 
@@ -28,6 +28,9 @@ The client-side code is located in the `src` directory and is built with React.j
 
 The `BugIndex` component is the main component of the application. It uses the `bugService` to interact with the server-side API and manage the application state. It provides functions to add a new bug (`onAddBug`), remove an existing bug (`onRemoveBug`), and load all bugs (`loadBugs`).
 
+## Deployment
+
+This application is deployed on Render. You can access the live demo here: [Live Demo](https://missbug-nec4.onrender.com)
 ## Getting Started
 
 To get started with this project, clone the repository and install the dependencies with `npm install`. Then, start the server with `node server.js` and the client with `npm start`.
@@ -39,3 +42,5 @@ Contributions are welcome. Please open an issue or submit a pull request.
 ## License
 
 This project is licensed under the MIT License.
+
+
