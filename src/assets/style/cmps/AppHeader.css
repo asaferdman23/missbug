@@ -8,7 +8,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+    font-family: Arial, sans-serif;
 }
 
 .app-nav {
@@ -20,7 +20,6 @@
 a.active {
     color: rgb(241, 212, 241);
     font-weight: 600;
-    text-decoration: underline;
 }
 
 

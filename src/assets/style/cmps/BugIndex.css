@@ -1,3 +1,11 @@
+.main-title{
+    margin: 0;
+    margin-top: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
 .add-btn {
     margin: 0;
     margin-top: 10px;

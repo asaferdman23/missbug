@@ -30,10 +30,39 @@ export function BugIndex() {
   }
 
   async function onAddBug() {
-    const bug = {
-      title: prompt('Bug title?'),
-      severity: +prompt('Bug severity?'),
+    const title = prompt('Bug title?');
+    if (title === null) {
+      if (window.confirm('Are you sure you want to cancel?')) {
+        return;
+      } else {
+        onAddBug();
+        return;
+      }
     }
+  
+    const desc = prompt('Bug description?');
+    if (desc === null) {
+      if (window.confirm('Are you sure you want to cancel?')) {
+        return;
+      } else {
+        onAddBug();
+        return;
+      }
+    }
+  
+    const severityInput = prompt('Bug severity?');
+    if (severityInput === null) {
+      if (window.confirm('Are you sure you want to cancel?')) {
+        return;
+      } else {
+        onAddBug();
+        return;
+      }
+    }
+    const severity = +severityInput;
+  
+    const bug = { title, desc, severity };
+  
     try {
       const savedBug = await bugService.save(bug)
       console.log('Added Bug', savedBug)
@@ -64,7 +93,7 @@ export function BugIndex() {
 
   return (
     <main className="bug-index">
-      <h3>Bugs App</h3>
+      <h3 className='main-title'>Miss Bug</h3>
       <main>
         <button className='add-btn' onClick={onAddBug}>Add Bug ⛐</button>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />

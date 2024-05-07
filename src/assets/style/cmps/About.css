@@ -1,0 +1,16 @@
+
+    .about-img {
+        width: 400px;
+        object-fit: cover;
+    }
+    .about-img:hover {
+        transform: scale(1.1);
+        transition: transform 0.5s;
+        shape-margin: 0%;
+    }
+
+    .about-desc{
+        font-size: 1.2rem;
+        line-height: 1.5;
+        font-family: 'Courier New', Courier, monospace;
+    }
