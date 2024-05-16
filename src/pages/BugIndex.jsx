@@ -1,22 +1,26 @@
 import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
+import { BugFilter } from '../cmps/BugFilter.jsx'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
+  const [ filterBy, setFilterBy ] = useState({ txt: '', minSeverity: 0 })
 
   useEffect(() => {
     loadBugs()
-  }, [])
+  }, [filterBy])
 
   async function loadBugs() {
-    const bugs = await bugService.query()
+    const bugs = await bugService.query(filterBy)
     setBugs(bugs)
   }
-
+  function onFilter(newFilterBy) {
+    setFilterBy(newFilterBy)
+  }
   async function onRemoveBug(bugId) {
     try {
       await bugService.remove(bugId)
@@ -95,6 +99,7 @@ export function BugIndex() {
     <main className="bug-index">
       <h3 className='main-title'>Miss Bug</h3>
       <main>
+      <BugFilter filterBy={filterBy} onFilter={onFilter} />
         <button className='add-btn' onClick={onAddBug}>Add Bug ⛐</button>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>
